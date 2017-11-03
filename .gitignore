@@ -13,6 +13,9 @@
 # Used by dotenv library to load environment variables.
 # .env
 
+.idea/
+Gemfile.lock
+
 ## Specific to RubyMotion:
 .dat*
 .repl_history
