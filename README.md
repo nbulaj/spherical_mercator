@@ -8,6 +8,10 @@
 Spherical Mercator gem is a port of [Mapbox sphericalmercator JS lib](https://github.com/mapbox/sphericalmercator) that provides projection math
 for converting between mercator meters, screen pixels (of 256x256 or configurable-size tiles), and latitude/longitude.
 
+## Requirements
+
+* Ruby >= 2.0
+
 ## Installation
 
 Simple:
