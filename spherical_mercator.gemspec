@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'lib'))
 require 'spherical_mercator/version'
 
 Gem::Specification.new do |gem|
-  gem.name = 'alpha_card'
+  gem.name = 'spherical_mercator'
   gem.version = SphericalMercator.gem_version
   gem.date = '2017-10-03'
   gem.summary = 'Spherical Mercator math in Ruby'

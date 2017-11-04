@@ -46,7 +46,7 @@ of `px`
 
 ### `bbox(x, y, zoom, tms_style, srs)`
 
-Convert tile xyz value to bbox of the form `[w, s, e, n]`
+Convert tile xyz value to bbox of the form `[west, south, east, north]`
 
 * `x` {Number} x (longitude) number.
 * `y` {Number} y (latitude) number.
@@ -54,35 +54,35 @@ Convert tile xyz value to bbox of the form `[w, s, e, n]`
 * `tms_style` {Boolean} whether to compute using tms-style. (optional, default `false`)
 * `srs` {String} projection for resulting bbox ('WGS84'|'900913'). (optional, default 'WGS84')
 
-Returns bbox array of values in form `[w, s, e, n]`.
+Returns bbox array of values in form `[west, south, east, north]`.
 
 ### `xyz(bbox, zoom, tms_style, srs)`
 
 Convert bbox to xyz bounds
 
-* `bbox` {Number} bbox in the form `[w, s, e, n]`.
+* `bbox` {Number} bbox in the form `[west, south, east, north]`.
 * `zoom` {Number} zoom.
 * `tms_style` {Boolean} whether to compute using tms-style. (optional, default `false`)
 * `srs` {String} projection of input bbox ('WGS84'|'900913'). (optional, default 'WGS84')
 
-Returns {Object} XYZ bounds containing minX, maxX, minY, maxY properties.
+Returns `Hash` object (`{...}`) for XYZ bounds containing `:minX`, `:maxX`, `:minY`, `:maxY` properties.
 
 ### `convert(bbox, to)`
 
 Convert bbox from 900913 to WGS84 or vice versa
 
-* `bbox` {Number} bbox in the form `[w, s, e, n]`.
+* `bbox` {Number} bbox in the form `[west, south, east, north]`.
 * `to` {String} projection of resulting bbox ('WGS84'|'900913'). (optional, default 'WGS84')
 
-Returns bbox array of values in form `[w, s, e, n]`.
+Returns bbox array of values in form `[west, south, east, north]`.
 
 ### `forward(lon_lat)`
 
-Convert lon, lat values to mercator x, y
+Convert lon, lat values (must be an array like `[lon, lat]`) to mercator x, y
 
 ### `inverse(xy)`
 
-Convert mercator x, y values to lon, lat
+Convert mercator x, y values (`xy` must be an array like `[x, y]`) to lon, lat
 
 ## Contributing
 
