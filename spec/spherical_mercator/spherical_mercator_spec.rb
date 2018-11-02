@@ -12,8 +12,12 @@ def rand_float
   rand(0.0...1.0)
 end
 
+def round(val)
+  val.to_f.round(6)
+end
+
 describe SphericalMercator do
-  let!(:sm) {SphericalMercator.new}
+  let!(:sm) { SphericalMercator.new }
 
   context '#bbox' do
     it '[0,0,0] converted to proper bbox' do
@@ -27,11 +31,11 @@ describe SphericalMercator do
 
   context '#xyz' do
     it 'World extents converted to proper tile ranges' do
-      expect(sm.xyz([-180, -85.05112877980659, 0, 0], 1, true, 'WGS84')).to eq({minX: 0, minY: 0, maxX: 0, maxY: 0})
+      expect(sm.xyz([-180, -85.05112877980659, 0, 0], 1, true, 'WGS84')).to eq({ minX: 0, minY: 0, maxX: 0, maxY: 0 })
     end
 
     it 'SW converted to proper tile ranges' do
-      expect(sm.xyz([-180, -85.05112877980659, 180, 85.0511287798066], 0, true, 'WGS84')).to eq({minX: 0, minY: 0, maxX: 0, maxY: 0})
+      expect(sm.xyz([-180, -85.05112877980659, 180, 85.0511287798066], 0, true, 'WGS84')).to eq({ minX: 0, minY: 0, maxX: 0, maxY: 0 })
     end
 
     it 'broken' do
@@ -87,11 +91,45 @@ describe SphericalMercator do
 
   context '#extents' do
     it 'Maximum extents enforced on conversion to tile ranges' do
-      expect(sm.xyz([-240, -90, 240, 90], 4, true, 'WGS84')).to eq({minX: 0, minY: 0, maxX: 15, maxY: 15})
+      expect(sm.xyz([-240, -90, 240, 90], 4, true, 'WGS84')).to eq({ minX: 0, minY: 0, maxX: 15, maxY: 15 })
     end
 
     it '' do
       expect(sm.convert([-240, -90, 240, 90], '900913')).to eq(MAX_EXTENT_MERC)
+    end
+  end
+
+  context '#ll' do
+    it 'LL with int zoom value converts' do
+      expect(sm.ll([200, 200], 9)).to eq([-179.45068359375, 85.00351401304403])
+    end
+
+    it 'LL with float zoom value converts' do
+      expect(sm.ll([200, 200], 8.6574)).to eq([-179.3034449476476, 84.99067388699072])
+    end
+  end
+
+  context '#pp' do
+    xit 'PX with int zoom value converts' do
+      expect(sm.px([-179, 85], 9)).to eq([364, 215])
+    end
+
+    it 'PX with float zoom value converts' do
+      expect(sm.px([-179, 85], 8.6574)).to eq([287.12734093961626, 169.30444219392666])
+    end
+  end
+
+  context 'high precision float' do
+    let(:withInt) { sm.ll([200, 200], 4) }
+    let(:withFloat) { sm.ll([200, 200], 4.0000000001) }
+
+    it 'first six decimals are the same' do
+      expect(round(withInt[0])).to eq(round(withFloat[0]))
+    end
+
+
+    it 'first six decimals are the same' do
+      expect(round(withInt[1])).to eq(round(withFloat[1]))
     end
   end
 end

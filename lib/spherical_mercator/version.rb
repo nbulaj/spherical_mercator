@@ -7,7 +7,7 @@ class SphericalMercator
   # AlphaCard semantic versioning
   module VERSION
     # Major version number
-    MAJOR = 0
+    MAJOR = 1
     # Minor version number
     MINOR = 1
     # Smallest version number

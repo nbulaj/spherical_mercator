@@ -47,22 +47,43 @@ class SphericalMercator
     @zc = cache[self.size]['zc']
   end
 
+  # function isFloat(n)
+  def float?(value)
+    !!Float(value) rescue false
+  end
+
   # Convert lon lat to screen pixel value
   #
   # - `ll` {Array} `[lon, lat]` array of geographic coordinates.
   # - `zoom` {Number} zoom level.
   def px(lon_lat, zoom)
-    d = @zc[zoom]
-    # JS: Math.min(Math.max(Math.sin(D2R * ll[1]), -0.9999), 0.9999);
-    f = [[Math.sin(D2R * lon_lat[1]), -0.9999].max, 0.9999].min
-    x = (d + lon_lat[0] * @bc[zoom]).round
-    y = (d + 0.5 * Math.log((1 + f) / (1 - f)) * (-@cc[zoom])).round
-    (x > @ac[zoom]) && (x = @ac[zoom])
-    (y > @ac[zoom]) && (y = @ac[zoom])
+    if float?(zoom)
+      size = @size * (2**zoom)
+      d = size / 2
+      bc = (size / 360)
+      cc = (size / (2 * Math::PI))
+      ac = size
+      f = [[Math.sin(D2R * lon_lat[1]), -0.9999].max, 0.9999].min
+      x = d + lon_lat[0] * bc
+      y = d + 0.5 * Math.log((1 + f) / (1 - f)) * -cc
+      (x > ac) && (x = ac)
+      (y > ac) && (y = ac)
+      # (x < 0) && (x = 0)
+      # (y < 0) && (y = 0)
+      [x, y]
+    else
+      d = @zc[zoom]
+      # JS: Math.min(Math.max(Math.sin(D2R * ll[1]), -0.9999), 0.9999)
+      f = [[Math.sin(D2R * lon_lat[1]), -0.9999].max, 0.9999].min
+      x = (d + lon_lat[0] * @bc[zoom]).round
+      y = (d + 0.5 * Math.log((1 + f) / (1 - f)) * (-@cc[zoom])).round
+      (x > @ac[zoom]) && (x = @ac[zoom])
+      (y > @ac[zoom]) && (y = @ac[zoom])
 
-    # (x < 0) && (x = 0);
-    # (y < 0) && (y = 0);
-    [x, y]
+      # (x < 0) && (x = 0)
+      # (y < 0) && (y = 0)
+      [x, y]
+    end
   end
 
   # Convert screen pixel value to lon lat
@@ -70,10 +91,21 @@ class SphericalMercator
   # - `px` {Array} `[x, y]` array of geographic coordinates.
   # - `zoom` {Number} zoom level.
   def ll(px, zoom)
-    g = (px[1] - @zc[zoom]) / (-@cc[zoom])
-    lon = (px[0] - @zc[zoom]) / @bc[zoom]
-    lat = R2D * (2 * Math.atan(Math.exp(g)) - 0.5 * Math::PI)
-    [lon, lat]
+    if float?(zoom)
+      size = @size * (2**zoom)
+      bc = (size / 360)
+      cc = (size / (2 * Math::PI))
+      zc = size / 2
+      g = (px[1] - zc) / -cc
+      lon = (px[0] - zc) / bc
+      lat = R2D * (2 * Math.atan(Math.exp(g)) - 0.5 * Math::PI)
+      [lon, lat]
+    else
+      g = (px[1] - @zc[zoom]) / (-@cc[zoom])
+      lon = (px[0] - @zc[zoom]) / @bc[zoom]
+      lat = R2D * (2 * Math.atan(Math.exp(g)) - 0.5 * Math::PI)
+      [lon, lat]
+    end
   end
 
   # Convert tile xyz value to bbox of the form `[w, s, e, n]`
