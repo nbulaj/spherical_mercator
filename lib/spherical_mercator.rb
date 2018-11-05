@@ -49,7 +49,10 @@ class SphericalMercator
 
   # function isFloat(n)
   def float?(value)
-    !!Float(value) rescue false
+    number = Float(value)
+    number % 1 != 0
+  rescue ArgumentError
+    false
   end
 
   # Convert lon lat to screen pixel value

@@ -3,8 +3,6 @@ class SphericalMercator
     Gem::Version.new VERSION::STRING
   end
 
-  ##
-  # AlphaCard semantic versioning
   module VERSION
     # Major version number
     MAJOR = 1

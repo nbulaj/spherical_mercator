@@ -110,7 +110,7 @@ describe SphericalMercator do
   end
 
   context '#pp' do
-    xit 'PX with int zoom value converts' do
+    it 'PX with int zoom value converts' do
       expect(sm.px([-179, 85], 9)).to eq([364, 215])
     end
 
