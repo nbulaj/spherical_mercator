@@ -32,12 +32,16 @@ Some datatypes are assumed to be arrays: `ll` is `[lon, lat]`, `xy` and `px` are
 ```ruby
 # By default, precomputes up to z30
 mercator = SphericalMercator.new(size: 256)
+# Whether to round pixel values at integer zoom levels. Defaults to true.
+mercator = SphericalMercator.new(round: false)
 ```
 
 ### `px(lon_lat, zoom)`
 
 Convert lon, lat to screen pixel x, y from 0, 0 origin, at a certain zoom level.
 The inverse of `ll`
+
+Screen pixel values are rounded, unless the zoom level is a floating point value. To disable rounding on integer zoom levels, specify `round: false` when creating the SphericalMercator.
 
 ### `ll(px, zoom)`
 

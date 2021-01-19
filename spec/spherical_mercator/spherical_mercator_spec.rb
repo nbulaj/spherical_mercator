@@ -18,6 +18,7 @@ end
 
 describe SphericalMercator do
   let!(:sm) { SphericalMercator.new }
+  let!(:sm_round) { SphericalMercator.new(round: false) }
 
   context '#bbox' do
     it '[0,0,0] converted to proper bbox' do
@@ -116,6 +117,10 @@ describe SphericalMercator do
 
     it 'PX with float zoom value converts' do
       expect(sm.px([-179, 85], 8.6574)).to eq([287.12734093961626, 169.30444219392666])
+    end
+  
+    it 'PX with forced rounding' do
+      expect(sm_round.px([-179, 85], 9)).to eq([364.0888888888876, 214.68476683766494])
     end
   end
 
