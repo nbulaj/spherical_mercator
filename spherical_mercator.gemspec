@@ -5,7 +5,6 @@ require 'spherical_mercator/version'
 Gem::Specification.new do |gem|
   gem.name = 'spherical_mercator'
   gem.version = SphericalMercator.gem_version
-  gem.date = '2017-10-03'
   gem.summary = 'Spherical Mercator math in Ruby'
   gem.description = 'Spherical Mercator provides projection math for converting between mercator' \
                     'meters, screen pixels (of 256x256 or configurable-size tiles), and latitude/longitude'
