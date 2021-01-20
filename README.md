@@ -1,7 +1,6 @@
 # Ruby port of Mapbox Spherical Mercator
 [![Gem Version](https://badge.fury.io/rb/spherical_mercator.svg)](http://badge.fury.io/rb/spherical_mercator)
 [![Build Status](https://travis-ci.org/nbulaj/spherical_mercator.svg?branch=master)](https://travis-ci.org/nbulaj/spherical_mercator)
-[![Dependency Status](https://gemnasium.com/nbulaj/spherical_mercator.svg)](https://gemnasium.com/nbulaj/spherical_mercator)
 [![Coverage Status](https://coveralls.io/repos/github/nbulaj/spherical_mercator/badge.svg)](https://coveralls.io/github/nbulaj/spherical_mercator)
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg)](#license)
 
