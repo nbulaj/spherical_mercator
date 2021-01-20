@@ -8,11 +8,12 @@ rvm:
   - 2.6
   - 2.7
   - 3.0
-  - jruby-9.0.5.0
   - jruby-9.1.5.0
   - jruby-9.1.6.0
+  - truffleruby
   - ruby-head
 env: JRUBY_OPTS="$JRUBY_OPTS --debug"
 matrix:
   allow_failures:
     - rvm: ruby-head
+    - rvm: truffleruby
