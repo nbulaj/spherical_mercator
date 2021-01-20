@@ -1,7 +1,10 @@
 require 'spherical_mercator/version'
 
 class SphericalMercator
+  
   attr_reader :options
+  attr_accessor :size, :round
+
   # Closures including constants and other precalculated values.
 
   EPSLN = 1.0e-10
@@ -11,7 +14,7 @@ class SphericalMercator
   A = 6_378_137.0
   MAX_EXTENT = 20_037_508.342_789_244
 
-  attr_accessor :size, :cache
+  attr_accessor :cache
 
   attr_accessor :ac, :bc, :cc, :zc
 
@@ -22,6 +25,8 @@ class SphericalMercator
     @options = opts || {}
 
     self.size = (options[:size] || 256).to_f
+    # Whether to round output values for integer zoom levels. Defaults to true.
+    self.round = (options[:round].nil?) ? true : options[:round]
 
     if cache[size].nil?
       size = self.size
@@ -60,7 +65,7 @@ class SphericalMercator
   # - `ll` {Array} `[lon, lat]` array of geographic coordinates.
   # - `zoom` {Number} zoom level.
   def px(lon_lat, zoom)
-    if float?(zoom)
+    if float?(zoom) || !self.round
       size = @size * (2**zoom)
       d = size / 2
       bc = (size / 360)
