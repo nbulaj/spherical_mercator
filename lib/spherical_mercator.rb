@@ -3,7 +3,7 @@ require 'spherical_mercator/version'
 class SphericalMercator
   
   attr_reader :options
-  attr_accessor :size, :round
+  attr_accessor :size, :round, :expansion
 
   # Closures including constants and other precalculated values.
 
@@ -25,6 +25,7 @@ class SphericalMercator
     @options = opts || {}
 
     self.size = (options[:size] || 256).to_f
+    self.expansion = (options[:antimeridian] == true) ? 2 : 1
     # Whether to round output values for integer zoom levels. Defaults to true.
     self.round = (options[:round].nil?) ? true : options[:round]
 
@@ -74,7 +75,7 @@ class SphericalMercator
       f = [[Math.sin(D2R * lon_lat[1]), -0.9999].max, 0.9999].min
       x = d + lon_lat[0] * bc
       y = d + 0.5 * Math.log((1 + f) / (1 - f)) * -cc
-      (x > ac) && (x = ac)
+      (x > ac * self.expansion) && (x = ac * self.expansion)
       (y > ac) && (y = ac)
       # (x < 0) && (x = 0)
       # (y < 0) && (y = 0)
@@ -85,7 +86,7 @@ class SphericalMercator
       f = [[Math.sin(D2R * lon_lat[1]), -0.9999].max, 0.9999].min
       x = (d + lon_lat[0] * @bc[zoom]).round
       y = (d + 0.5 * Math.log((1 + f) / (1 - f)) * (-@cc[zoom])).round
-      (x > @ac[zoom]) && (x = @ac[zoom])
+      (x > @ac[zoom] * self.expansion) && (x = @ac[zoom] * self.expansion)
       (y > @ac[zoom]) && (y = @ac[zoom])
 
       # (x < 0) && (x = 0)

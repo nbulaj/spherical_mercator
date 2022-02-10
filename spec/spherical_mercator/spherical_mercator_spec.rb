@@ -19,6 +19,7 @@ end
 describe SphericalMercator do
   let!(:sm) { SphericalMercator.new }
   let!(:sm_round) { SphericalMercator.new(round: false) }
+  let!(:antiM) { SphericalMercator.new(antimeridian: true) }
 
   context '#bbox' do
     it '[0,0,0] converted to proper bbox' do
@@ -121,6 +122,22 @@ describe SphericalMercator do
   
     it 'PX with forced rounding' do
       expect(sm_round.px([-179, 85], 9)).to eq([364.0888888888876, 214.68476683766494])
+    end
+
+    it 'Clamps PX by default when lon >180' do
+      expect(sm.px([250, 3], 4)).to eq([4096, 2014])
+    end
+
+    it 'PX with lon > 180 converts when antimeridian=true' do
+      expect(antiM.px([250, 3], 4)).to eq([4892, 2014])
+    end
+
+    it 'PX for lon 360 and antimeridian=true' do
+      expect(antiM.px([400, 3], 4)).to eq([6599, 2014])
+    end
+
+    it 'Clamps PX when lon >360 and antimeridian=true' do
+      expect(antiM.px([400, 3], 4)).to eq([6599, 2014])
     end
   end
 

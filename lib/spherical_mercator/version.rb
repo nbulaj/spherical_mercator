@@ -7,9 +7,9 @@ class SphericalMercator
     # Major version number
     MAJOR = 1
     # Minor version number
-    MINOR = 1
+    MINOR = 2
     # Smallest version number
-    TINY  = 1
+    TINY  = 0
 
     # Full version number
     STRING = [MAJOR, MINOR, TINY].compact.join('.')
