@@ -1,9 +1,8 @@
 require 'spherical_mercator/version'
 
 class SphericalMercator
-  
   attr_reader :options
-  attr_accessor :size, :round, :expansion
+  attr_accessor :size, :round, :expansion, :cache, :ac, :bc, :cc, :zc
 
   # Closures including constants and other precalculated values.
 
@@ -13,10 +12,6 @@ class SphericalMercator
   # 900913 properties.
   A = 6_378_137.0
   MAX_EXTENT = 20_037_508.342_789_244
-
-  attr_accessor :cache
-
-  attr_accessor :ac, :bc, :cc, :zc
 
   # SphericalMercator constructor: precaches calculations
   # for fast tile lookups.

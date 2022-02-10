@@ -16,10 +16,10 @@ def round(val)
   val.to_f.round(6)
 end
 
-describe SphericalMercator do
-  let!(:sm) { SphericalMercator.new }
-  let!(:sm_round) { SphericalMercator.new(round: false) }
-  let!(:antiM) { SphericalMercator.new(antimeridian: true) }
+RSpec.describe SphericalMercator do
+  let(:sm) { described_class.new }
+  let(:sm_round) { described_class.new(round: false) }
+  let(:antiM) { described_class.new(antimeridian: true) }
 
   context '#bbox' do
     it '[0,0,0] converted to proper bbox' do
@@ -96,7 +96,7 @@ describe SphericalMercator do
       expect(sm.xyz([-240, -90, 240, 90], 4, true, 'WGS84')).to eq({ minX: 0, minY: 0, maxX: 15, maxY: 15 })
     end
 
-    it '' do
+    it 'MAX_EXTENT_MERC' do
       expect(sm.convert([-240, -90, 240, 90], '900913')).to eq(MAX_EXTENT_MERC)
     end
   end
@@ -111,7 +111,7 @@ describe SphericalMercator do
     end
   end
 
-  context '#pp' do
+  context '#px' do
     it 'PX with int zoom value converts' do
       expect(sm.px([-179, 85], 9)).to eq([364, 215])
     end
@@ -148,7 +148,6 @@ describe SphericalMercator do
     it 'first six decimals are the same' do
       expect(round(withInt[0])).to eq(round(withFloat[0]))
     end
-
 
     it 'first six decimals are the same' do
       expect(round(withInt[1])).to eq(round(withFloat[1]))
